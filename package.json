@@ -4,9 +4,11 @@
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
+    "@types/node": "^18.11.3",
     "husky": "^8.0.0",
     "pinst": "^3.0.0",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "typescript": "^4.8.4"
   },
   "dependencies": {
     "husky": "^8.0.1",
