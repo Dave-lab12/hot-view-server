@@ -1,0 +1,19 @@
+{
+  "name": "server",
+  "packageManager": "yarn@3.2.4",
+  "devDependencies": {
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
+    "prettier": "^2.7.1",
+    "husky": "^8.0.0",
+    "pinst": "^3.0.0"
+  },
+  "dependencies": {
+    "husky": "^8.0.1"
+  },
+  "scripts": {
+    "postinstall": "husky install",
+    "prepack": "pinst --disable",
+    "postpack": "pinst --enable"
+  }
+}
