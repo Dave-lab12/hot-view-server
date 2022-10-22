@@ -1,2 +1,2 @@
-import  fs from 'fs';
-console.log(fs)
+import { app } from './app';
+console.log(app);
