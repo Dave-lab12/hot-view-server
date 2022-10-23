@@ -1,0 +1,24 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "no-loops", "jest"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@shopify/esnext",
+    "plugin:@shopify/prettier"
+  ],
+  "env": {
+    "jest": true
+  },
+  "rules": {
+    "no-console": 2, // change to 0 to enable console
+    "no-loops/no-loops": 2
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
+  }
+}
