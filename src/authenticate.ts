@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import { PrismaClient } from '@prisma/client';
+import jwt, { Secret } from 'jsonwebtoken';
 
 const prisma: PrismaClient = new PrismaClient();
 
@@ -18,4 +19,16 @@ async function authenticate (req: Request, res: Response){
     return null;
 }
 
+function authenticateToken(req: Request, res: Response, next: Function){
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    if(!token) return res.sendStatus(401)
+
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as Secret, (err) => {
+        if(err) return res.sendStatus(403);
+        next();
+    })
+}
+
 export default authenticate;
+export {authenticateToken};
