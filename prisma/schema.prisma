@@ -24,4 +24,6 @@ model User {
   role        Role    @default(BASIC)
   password    String
   profileId   String? @unique @default(uuid())
+
+  @@unique([firstName, secondName])
 }
