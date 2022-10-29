@@ -16,13 +16,14 @@ datasource db {
 }
 
 model User {
-  id           String  @id @default(uuid())
-  firstName    String
-  secondName   String
-  email        String  @unique
-  phonenumber  Int?
-  role         Role    @default(BASIC)
-  password     String
-  profileId    String? @unique @default(uuid())
-  refreshToken String?
+  id              String  @id @default(uuid())
+  firstName       String
+  lastName        String
+  email           String  @unique
+  phonenumber     Int?
+  passwordConfirm String
+  role            Role    @default(BASIC)
+  password        String
+  profileId       String? @unique @default(uuid())
+  refreshToken    String?
 }
