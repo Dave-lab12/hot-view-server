@@ -1,6 +1,7 @@
 {
   "server": {
     "host": "localhost",
-    "port": 8001
+    "port": 8001,
+    "accessTokenExpiresIn": 15
   }
 }
