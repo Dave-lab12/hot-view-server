@@ -32,7 +32,7 @@ model News {
   id          String   @id @default(uuid())
   title       String
   Category_id String
-  Conent      String
+  Content     String
   image_id    String
   view        Int
   createdAt   DateTime
