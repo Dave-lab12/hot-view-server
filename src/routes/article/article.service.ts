@@ -17,15 +17,15 @@ export const getArticles = async () : Promise<Article[]> => {
     });
 }
 
-export const createArticles = async (article: Article) => {
-    db.article.create({
+export const createArticles = async (article: Article): Promise<Article> => {
+    return db.article.create({
         data: {
             title: article.title,
             content: article.content,
             category_id: article.category_id,
             image_id: article.image_id,
             view: article.view,
-        }
+        },
     })
 }
 
@@ -37,6 +37,17 @@ export const getArticle =async (id: string): Promise<Article | null> => {
     })
 }
 
-export const updateArticle =async (articleId: String, columnName: String, updateData: unknown ) => {
-    
+export const updateArticle =async (article: Article ) => {
+    return db.article.update({
+        where: {
+            id: article.id
+        },
+        data: {
+            title: article.title,
+            category_id: article.category_id,
+            content: article.content,
+            image_id: article.image_id,
+            view: article.view,  
+        }
+    })
 }
