@@ -27,3 +27,14 @@ model User {
   profileId       String? @unique @default(uuid())
   refreshToken    String?
 }
+
+model News {
+  id          String   @id @default(uuid())
+  title       String
+  Category_id String
+  Conent      String
+  image_id    String
+  view        Int
+  createdAt   DateTime
+  updatedAt   DateTime
+}
