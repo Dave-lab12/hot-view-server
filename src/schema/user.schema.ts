@@ -1,4 +1,4 @@
-import { object, string, TypeOf } from 'zod';
+import { object, string, z } from 'zod';
 
 export const createUserSchema = object({
   body: object({
@@ -29,5 +29,7 @@ export const loginUserSchema = object({
   }),
 });
 
-export type CreateUserInput = TypeOf<typeof createUserSchema="">['body'];
-export type LoginUserInput = TypeOf<typeof loginUserSchema="">['body'];
+// export type CreateUserInput = TypeOf<typeof createUserSchema="">['body'];
+// export type LoginUserInput = TypeOf<typeof loginUserSchema="">['body'];
+export type CreateUserInput = z.infer<typeof createUserSchema>;
+export type LoginUserInput = z.infer<typeof loginUserSchema>;
