@@ -5,7 +5,7 @@ const prisma : PrismaClient = new PrismaClient();
 
 export const getArticles = async () : Promise<Article[]> => {
 
-    return prisma.News.findMany({
+    return prisma.news.findMany({
         select:{
             id:true,
             title: true,
@@ -15,4 +15,14 @@ export const getArticles = async () : Promise<Article[]> => {
             createdAt: true,    
         }
     })
+}
+
+export const createArticles = async (article: Article) => {
+    prisma.news.create({
+        data: article
+    })
+}
+
+export const updateArticle =async (articleId: String) => {
+    
 }

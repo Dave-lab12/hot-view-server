@@ -28,13 +28,13 @@ model User {
   refreshToken    String?
 }
 
-model News {
-  id          String   @id @default(uuid())
+model Article {
+  id          String    @id @default(uuid())
   title       String
-  Category_id String
-  Content     String
-  image_id    String
-  view        Int
+  category_id String
+  content     String
+  image_id    String?
+  view        Int?
   createdAt   DateTime
-  updatedAt   DateTime
+  updatedAt   DateTime?
 }
