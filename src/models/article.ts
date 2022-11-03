@@ -1,4 +1,4 @@
-type Article = {
+export type Article = {
     id: String;
     title: String;
     category_id: String;
