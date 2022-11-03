@@ -1,0 +1,2 @@
+function httpRegisterUser() {}
+function httpLoginUser() {}
