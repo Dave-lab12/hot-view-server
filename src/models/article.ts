@@ -4,5 +4,6 @@ export type Article = {
     category_id: String;
     content: String;
     image_id: String;
-    createdAt: String;   
+    createdAt: String;
+    view: number;   
 }
