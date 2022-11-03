@@ -15,6 +15,22 @@ articleRouter.get('/articles', async (req: Request, res: Response) => {
     }
 })
 
+articleRouter.get('/articles:id',async (req: Request, res: Response) => {
+    const id: string = req.params.id;
+    try{
+        const article = await ArticleService.getArticle(id);   
+        if(article){
+            return res.status(200).json(article);
+        }     
+
+        return res.status(404).json("Article not found")
+        
+    } catch(error: any){
+        const appError = new AppError(error.message);
+        return res.status(500).json(appError)
+    }
+})
+
 articleRouter.post('/articles', () => {
 
 })
