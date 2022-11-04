@@ -29,6 +29,7 @@ articleRouter.get('/:id',async (req:Request, res: Response) => {
         return res.status(404).json("Article not Found")
     } catch(error: any){
         const appError = new AppError(error.message,404);
+        console.log(error);
         return res.status(500).json(appError)
     }
 })
@@ -40,9 +41,7 @@ articleRouter.post('/', async (req: Request, res: Response) => {
         const newArticle = await ArticleService.createArticles(article)
         return res.status(201).json(newArticle)
     } catch(error: any){
-        const appError = new AppError(error.message)
-        console.log(error);
-        
+        const appError = new AppError(error.message)        
         return res.status(500).json(appError)
         
     }
