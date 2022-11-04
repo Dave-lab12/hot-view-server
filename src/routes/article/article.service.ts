@@ -62,9 +62,12 @@ export const deleteArticle = async (artileId: string): Promise<Article> => {
 }
 
 export const getCategoryId =async (categoryName:string): Promise<String> => {
-    return db.category.first({
+    return db.category.firstUnique({
         where: {
             category_name: categoryName 
+        },
+        select:{
+            category_id: true
         }
     })
 }
