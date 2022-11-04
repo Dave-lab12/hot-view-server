@@ -17,6 +17,14 @@ export const getArticles = async () : Promise<Article[]> => {
     })
 }
 
+export const getArticle  = async (id:string) : Promise<Article | null> => {
+    return db.article.findUnique({
+        where: {
+            id,
+        }
+    })
+}
+
 // export const createArticles = async (article: Article): Promise<Article> => {
 //     return db.article.create({
 //         data: {
