@@ -16,6 +16,7 @@ articleRouter.get('/articles', async (req: Request, res: Response) => {
     }
 })
 
+<<<<<<< HEAD
 articleRouter.get('/articles:id',async (req: Request, res: Response) => {
     const id: string = req.params.id;
     try{
@@ -37,6 +38,10 @@ articleRouter.post('/articles', async (req: Request, res: Response) => {
         title: req.body.title,
         category_id: 
     }
+=======
+articleRouter.post('/articles', () => {
+
+>>>>>>> parent of 8987a7e (Feat: Getting a single article method implemented)
 })
 
 articleRouter.put('/articles', () => {

@@ -1,38 +1,25 @@
 import type { Article } from "../../models/article";
-import { db } from "../../utils/db.server";
+import { PrismaClient } from '@prisma/client';
+
+const prisma : PrismaClient = new PrismaClient();
 
 export const getArticles = async () : Promise<Article[]> => {
 
-    return db.article.findMany({
+    return prisma.article.findMany({
         select:{
-            id: true,  
+            id: true,
             title: true,
             content: true,
             category_id: true,
-            createdAt: true,
             image_id: true,
             view: true,
-        },
-    });
-}
-
-export const createArticles = async (article: Article): Promise<Article> => {
-    return db.article.create({
-        data: {
-            title: article.title,
-            content: article.content,
-            category_id: article.category_id,
-            image_id: article.image_id,
-            view: article.view,
         },
     })
 }
 
-export const getArticle =async (id: string): Promise<Article | null> => {
-    return db.article.findUnique({
-        where: {
-            id: id
-        }
+export const createArticles = async (article: Article) => {
+    prisma.article.create({
+        data: article
     })
 }
 

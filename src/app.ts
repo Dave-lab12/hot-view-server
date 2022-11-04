@@ -7,7 +7,6 @@ import morgan from 'morgan';
 
 import createUser from './register';
 import authRouter from './routes/auth/auth.router';
-import { articleRouter } from './routes/article/article.router';
 // import authenticate, { authenticateToken } from './authenticate';
 
 const app: Express = express();
@@ -18,7 +17,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('combined'));
 app.use('/api/v1/auth', authRouter);
-app.use('/api/article', articleRouter)
 
 // app.get('/', authenticateToken, (req: Request, res: Response) => {
 //   return res.status(200).json({ message: 'hello world' });
