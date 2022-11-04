@@ -17,16 +17,16 @@ export const getArticles = async () : Promise<Article[]> => {
     })
 }
 
-export const createArticles = async (article: Article): Promise<Article> => {
-    return db.article.create({
-        data: {
-            title: article.title,
-            content: article.content,
-            image_id: article.image_id,
-            view: article.view
-        }
-    })
-}
+// export const createArticles = async (article: Article): Promise<Article> => {
+//     return db.article.create({
+//         data: {
+//             title: article.title,
+//             content: article.content,
+//             image_id: article.image_id,
+//             view: article.view
+//         }
+//     })
+// }
 
 export const updateArticle =async (article: Article ) => {
     return db.article.update({
@@ -42,23 +42,23 @@ export const updateArticle =async (article: Article ) => {
     })
 }
 
-export const deleteArticle = async (artileId: string): Promise<Article> => {
+// export const deleteArticle = async (artileId: string): Promise<Article> => {
     
-    return db.article.delete({
-        where: {
-            artileId
-        }
-    })
+//     return db.article.delete({
+//         where: {
+//             artileId
+//         }
+//     })
     
-}
+// }
 
-export const getCategoryId = async (categoryName:string): Promise<String> => {
-    return db.category.firstUnique({
-        where: {
-            category_name: categoryName 
-        },
-        select:{
-            category_id: true
-        }
-    })
-}
+// export const getCategoryId = async (categoryName:string): Promise<String> => {
+//     return db.category.firstUnique({
+//         where: {
+//             category_name: categoryName 
+//         },
+//         select:{
+//             category_id: true
+//         }
+//     })
+// }

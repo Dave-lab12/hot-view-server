@@ -13,9 +13,9 @@ async function createUser(req: Request) {
       firstName: req.body.firstName,
       secondName: req.body.secondName,
     };
-    await prisma.user.create({
-      data: user,
-    });
+    // await prisma.user.create({
+    //   data: user,
+    // });
 
     return user;
   } catch {

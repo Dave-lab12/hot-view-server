@@ -6,7 +6,7 @@ import { Article } from '../../models/article';
 
 export const articleRouter = express.Router();
 
-articleRouter.get('/articles', async (req: Request, res: Response) => {
+articleRouter.get('/', async (req: Request, res: Response) => {
     try{
         const articles = await ArticleService.getArticles();
         return res.status(200).json(articles);
@@ -16,14 +16,14 @@ articleRouter.get('/articles', async (req: Request, res: Response) => {
     }
 })
 
-articleRouter.post('/articles', () => {
+articleRouter.post('/', () => {
 
 })
 
-articleRouter.put('/articles', () => {
+articleRouter.put('/', () => {
     
 })
 
-articleRouter.delete('/articles', () => {
+articleRouter.delete('/', () => {
 
 })

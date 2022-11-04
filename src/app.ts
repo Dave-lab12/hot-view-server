@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('combined'));
 app.use('/api/v1/auth', authRouter);
-app.use('/api/article', articleRouter)
+app.use('/api/articles', articleRouter)
 
 // app.get('/', authenticateToken, (req: Request, res: Response) => {
 //   return res.status(200).json({ message: 'hello world' });
