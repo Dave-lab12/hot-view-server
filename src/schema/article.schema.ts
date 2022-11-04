@@ -10,10 +10,10 @@ export const createArticleSchema = object({
 
 export const updateArticleSchema = object({
     body: object({
-        title: string({}),
-        category_id:string(),
-        content: string(),
-        image_id: string(),
+        title: string().optional(),
+        category_id: string().optional(),
+        content: string().optional(),
+        image_id: string().optional(),
     }).superRefine((data, ctx) => {
         const {title, category_id, content, image_id} = data
         let hasNoInput = !(title !== undefined ||
