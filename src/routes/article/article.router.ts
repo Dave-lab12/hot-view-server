@@ -2,8 +2,8 @@ import express from 'express'
 import AppError from '../../utils/appError';
 import type { Request, Response } from 'express';
 import * as ArticleService from './article.service'
-import { Article } from '../../models/article';
-
+import { validate } from '../../middleware/validate';
+import { createArticleSchema, updateArticleSchema } from '../../schema/article.schema';
 export const articleRouter = express.Router();
 
 articleRouter.get('/', async (req: Request, res: Response) => {
@@ -35,7 +35,7 @@ articleRouter.get('/:id',async (req:Request, res: Response) => {
 })
     
 
-articleRouter.post('/', async (req: Request, res: Response) => {
+articleRouter.post('/', validate(createArticleSchema) ,async (req: Request, res: Response) => {
     try{
         const article = req.body
         const newArticle = await ArticleService.createArticles(article)
@@ -47,7 +47,7 @@ articleRouter.post('/', async (req: Request, res: Response) => {
     }
 })
 
-articleRouter.put('/:id',async (req: Request, res: Response) => {
+articleRouter.put('/:id', validate(updateArticleSchema), async (req: Request, res: Response) => {
     const id: string = req.params.id
     try{
         const article = req.body
