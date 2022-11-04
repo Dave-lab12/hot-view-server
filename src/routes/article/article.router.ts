@@ -34,14 +34,38 @@ articleRouter.get('/:id',async (req:Request, res: Response) => {
 })
     
 
-articleRouter.post('/', () => {
+articleRouter.post('/', async (req: Request, res: Response) => {
+    try{
+        const article = req.body
+        const newArticle = await ArticleService.createArticles(article)
+        return res.status(201).json(newArticle)
+    } catch(error: any){
+        const appError = new AppError(error.message)
+        return res.status(500).json(appError)
+    }
+})
+
+articleRouter.put('/:id',async (req: Request, res: Response) => {
+    const id: string = req.params.id
+    try{
+        const article = req.body
+        const updatedArticle = await ArticleService.updateArticle(article, id);
+        return res.status(200).json(updatedArticle);
+    } catch(error: any){
+        const appError = new AppError(error.message)
+        return res.status(500).json(appError)
+    }
 
 })
 
-articleRouter.put('/', () => {
+articleRouter.delete('/:id', async (req: Request, res: Response) => {
+    const id: string = req.params.id
     
-})
-
-articleRouter.delete('/', () => {
-
+    try{
+        await ArticleService.deleteArticle(id);
+        return res.status(204).json("Article succesfully deleted")
+    } catch(error: any){
+        const appError = new AppError(error.message)
+        return res.status(500).json(appError)
+    }
 })
