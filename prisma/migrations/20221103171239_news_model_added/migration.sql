@@ -7,7 +7,7 @@
 
 */
 -- AlterTable
-DELETE FROM "User";
+-- DELETE FROM "User";
 
 ALTER TABLE "User" DROP COLUMN "secondName",
 ADD COLUMN     "lastName" TEXT NOT NULL,

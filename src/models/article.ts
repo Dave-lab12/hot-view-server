@@ -5,5 +5,5 @@ export type Article = {
     content: string;
     image_id: string | null;
     createdAt: Date;
-    view: number | null;   
+    view: number;   
 }
