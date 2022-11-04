@@ -18,7 +18,7 @@ export const getArticles = async () : Promise<Article[]> => {
 }
 
 export const getArticle  = async (id:string) : Promise<Article | null> => {
-    return db.article.findFirst({
+    return db.article.findUnique({
         where: {
             id,
         }

@@ -17,19 +17,22 @@ articleRouter.get('/', async (req: Request, res: Response) => {
 })
 
 articleRouter.get('/:id',async (req:Request, res: Response) => {
-    const id = req.body.id
+    const id = req.params.id
+    console.log(id);
+    
     
     try{
         const article = await ArticleService.getArticle(id);
-
+        
         if(article){
             return res.status(200).json(article)
         } 
 
-        return res.status(404).json("Article not Found")
+        return res.status(404).json({status: "Article not Found"})
     } catch(error: any){
         const appError = new AppError(error.message,404);
         console.log(error);
+        
         return res.status(500).json(appError)
     }
 })
@@ -65,7 +68,7 @@ articleRouter.delete('/:id', async (req: Request, res: Response) => {
     
     try{
         await ArticleService.deleteArticle(id);
-        return res.status(204).json("Article succesfully deleted")
+        return res.status(204).json({status:"Article succesfully deleted"})
     } catch(error: any){
         const appError = new AppError(error.message)
         return res.status(500).json(appError)
