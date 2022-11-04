@@ -16,15 +16,7 @@ export const getArticles = async () : Promise<Article[]> => {
     });
 }
 
-export const getArticle =async (id: string): Promise<Article | null> => {
-    return db.article.findUnique({
-        where: {
-            id: id
-        }
-    })
-}
-
-export const createArticle = async (article: Article): Promise<Article> => {
+export const createArticles = async (article: Article): Promise<Article> => {
     return db.article.create({
         data: {
             title: article.title,
@@ -36,7 +28,15 @@ export const createArticle = async (article: Article): Promise<Article> => {
     })
 }
 
-export const updateArticle = async (article: Article ) => {
+export const getArticle =async (id: string): Promise<Article | null> => {
+    return db.article.findUnique({
+        where: {
+            id: id
+        }
+    })
+}
+
+export const updateArticle =async (article: Article ) => {
     return db.article.update({
         where: {
             id: article.id
@@ -48,6 +48,7 @@ export const updateArticle = async (article: Article ) => {
             view: article.view,  
         }
     })
+<<<<<<< HEAD
 }
 
 export const deleteArticle = async (artileId: string): Promise<Article> => {
@@ -69,4 +70,6 @@ export const getCategoryId =async (categoryName:string): Promise<String> => {
             category_id: true
         }
     })
+=======
+>>>>>>> parent of 68d4776 (Feat: Added a delete function)
 }
