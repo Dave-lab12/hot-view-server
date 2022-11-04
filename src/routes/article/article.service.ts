@@ -48,7 +48,6 @@ export const updateArticle =async (article: Article ) => {
             view: article.view,  
         }
     })
-<<<<<<< HEAD
 }
 
 export const deleteArticle = async (artileId: string): Promise<Article> => {
@@ -70,6 +69,4 @@ export const getCategoryId =async (categoryName:string): Promise<String> => {
             category_id: true
         }
     })
-=======
->>>>>>> parent of 68d4776 (Feat: Added a delete function)
 }
