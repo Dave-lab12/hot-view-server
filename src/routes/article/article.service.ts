@@ -1,11 +1,9 @@
 import type { Article } from "../../models/article";
-import { PrismaClient } from '@prisma/client';
-
-const prisma : PrismaClient = new PrismaClient();
+import { db } from "../../utils/db.server";
 
 export const getArticles = async () : Promise<Article[]> => {
 
-    return prisma.article.findMany({
+    return db.article.findMany({
         select:{
             id: true,
             title: true,
@@ -18,7 +16,7 @@ export const getArticles = async () : Promise<Article[]> => {
 }
 
 export const createArticles = async (article: Article) => {
-    prisma.article.create({
+    db.article.create({
         data: article
     })
 }
