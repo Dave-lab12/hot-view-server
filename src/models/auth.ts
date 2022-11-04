@@ -3,9 +3,16 @@ import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 
 import { signJwt } from '../utils/jwt';
+import { RegisterData } from '../types/registerUser';
+
+interface LoginData {
+  email: string;
+  password: string;
+}
 
 const prisma = new PrismaClient();
-export const getUserData = async (data: any) => {
+
+export const getUserData = async (data: LoginData) => {
   const { email, password } = data;
   const user = await prisma.user.findUnique({
     where: {
@@ -22,4 +29,24 @@ export const getUserData = async (data: any) => {
     { expiresIn: `${config.get('server.accessTokenExpiresIn')}` }
   );
   return { ...user, accessToken };
+};
+export const registerUserData = async (data: RegisterData) => {
+  const { email, password, firstName, lastName, phoneNumber } = data;
+  const hashedPassword = bcrypt.hashSync(password, 8);
+  // console.log(email);
+  try {
+    const newUser = await prisma.user.create({
+      data: {
+        email,
+        firstName,
+        lastName,
+        phoneNumber: phoneNumber ? phoneNumber : 0,
+        password: hashedPassword,
+      },
+    });
+    const accessToken = signJwt(newUser);
+    return { newUser, accessToken };
+  } catch (error) {
+    return 'something went wrong';
+  }
 };
