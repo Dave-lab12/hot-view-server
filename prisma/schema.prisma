@@ -43,6 +43,4 @@ model Categroy {
   category_id   String    @id @default(uuid())
   category_name String
   news          Article[]
-
-  @@unique([category_name])
 }
