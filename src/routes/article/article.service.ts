@@ -43,7 +43,6 @@ export const updateArticle = async (article: Article ) => {
         },
         data: {
             title: article.title,
-            category_id: article.category_id,
             content: article.content,
             image_id: article.image_id,
             view: article.view,  

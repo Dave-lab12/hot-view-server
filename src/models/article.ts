@@ -1,7 +1,7 @@
 export type Article = {
     id?: string;
     title: string;
-    category_id: string;
+    category: string;
     content: string;
     image_id: string | null;
     createdAt: Date;
