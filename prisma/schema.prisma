@@ -31,10 +31,18 @@ model User {
 model Article {
   id          String    @id @default(uuid())
   title       String
-  category_id String
+  category_id Categroy  @relation(fields: [id], references: [category_id])
   content     String
   image_id    String?
   view        Int?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
+}
+
+model Categroy {
+  category_id   String    @id @default(uuid())
+  category_name String
+  news          Article[]
+
+  @@unique([category_name])
 }

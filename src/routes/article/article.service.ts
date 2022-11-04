@@ -1,5 +1,4 @@
 import type { Article } from "../../models/article";
-import { PrismaClient } from '@prisma/client';
 import { db } from "../../utils/db.server";
 
 export const getArticles = async () : Promise<Article[]> => {
@@ -52,7 +51,7 @@ export const updateArticle = async (article: Article ) => {
     })
 }
 
-export const deleteArticle =async (artileId: string): Promise<Article> => {
+export const deleteArticle = async (artileId: string): Promise<Article> => {
     
     return db.article.delete({
         where: {
@@ -60,4 +59,12 @@ export const deleteArticle =async (artileId: string): Promise<Article> => {
         }
     })
     
+}
+
+export const getCategoryId =async (categoryName:string): Promise<String> => {
+    return db.category.findUnique({
+        where: {
+            category_name: categoryName 
+        }
+    })
 }

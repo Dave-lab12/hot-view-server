@@ -2,6 +2,7 @@ import express from 'express'
 import AppError from '../../utils/appError';
 import type { Request, Response } from 'express';
 import * as ArticleService from './article.service'
+import { Article } from '../../models/article';
 
 export const articleRouter = express.Router();
 
@@ -31,8 +32,11 @@ articleRouter.get('/articles:id',async (req: Request, res: Response) => {
     }
 })
 
-articleRouter.post('/articles', () => {
-
+articleRouter.post('/articles', async (req: Request, res: Response) => {
+    const article : Article = {
+        title: req.body.title,
+        category_id: 
+    }
 })
 
 articleRouter.put('/articles', () => {
