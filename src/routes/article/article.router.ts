@@ -18,8 +18,6 @@ articleRouter.get('/', async (req: Request, res: Response) => {
 
 articleRouter.get('/:id',async (req:Request, res: Response) => {
     const id = req.params.id
-    console.log(id);
-    
     
     try{
         const article = await ArticleService.getArticle(id);
@@ -31,7 +29,6 @@ articleRouter.get('/:id',async (req:Request, res: Response) => {
         return res.status(404).json({status: "Article not Found"})
     } catch(error: any){
         const appError = new AppError(error.message,404);
-        console.log(error);
         
         return res.status(500).json(appError)
     }
