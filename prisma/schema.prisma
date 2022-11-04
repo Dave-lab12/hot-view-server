@@ -34,7 +34,7 @@ model Article {
   category_id String
   content     String
   image_id    String?
-  view        Int?
+  view        Int       @default(0)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
 }

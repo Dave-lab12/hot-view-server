@@ -26,14 +26,13 @@ export const getArticle  = async (id:string) : Promise<Article | null> => {
 }
 
 export const createArticles = async (article: Omit<Article,"id" >): Promise<Article> => {
-    const {title, category_id, content, image_id, view} = article
+    const {title, category_id, content, image_id} = article
     return db.article.create({
         data: {
             title,
             category_id,
             content,
             image_id,
-            view,
         },
     })
 }

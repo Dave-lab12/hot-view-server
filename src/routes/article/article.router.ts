@@ -41,7 +41,10 @@ articleRouter.post('/', async (req: Request, res: Response) => {
         return res.status(201).json(newArticle)
     } catch(error: any){
         const appError = new AppError(error.message)
+        console.log(error);
+        
         return res.status(500).json(appError)
+        
     }
 })
 
