@@ -1,14 +1,10 @@
-import config from 'config';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 import bcrypt from 'bcrypt';
 
+import config from '../../config/default';
 import { signJwt } from '../utils/jwt';
 import { RegisterData } from '../types/registerUser';
-
-interface LoginData {
-  email: string;
-  password: string;
-}
+import { LoginData } from '../types/loginUser';
 
 const prisma = new PrismaClient();
 
@@ -20,20 +16,27 @@ export const getUserData = async (data: LoginData) => {
     },
   });
   if (!user) {
-    return 'User not registered';
+    return { error: true, message: 'User not registered' };
   }
   const checkPassword = bcrypt.compareSync(password, user.password);
-  if (!checkPassword) return 'Invalid password';
+  if (!checkPassword) return { error: true, message: 'Invalid credentials' };
   const accessToken = signJwt(
     { sub: user.id },
-    { expiresIn: `${config.get('server.accessTokenExpiresIn')}` }
+    { expiresIn: `${config.app.accessTokenExpiresIn}` }
   );
-  return { ...user, accessToken };
+  const userResult = {
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    role: user.role,
+    phoneNumber: user.phoneNumber,
+  };
+  return { ...userResult, accessToken };
 };
+
 export const registerUserData = async (data: RegisterData) => {
   const { email, password, firstName, lastName, phoneNumber } = data;
   const hashedPassword = bcrypt.hashSync(password, 8);
-  // console.log(email);
   try {
     const newUser = await prisma.user.create({
       data: {
@@ -45,8 +48,20 @@ export const registerUserData = async (data: RegisterData) => {
       },
     });
     const accessToken = signJwt(newUser);
-    return { newUser, accessToken };
+    const filteredNewUser = {
+      email: newUser.email,
+      firstName: newUser.firstName,
+      lastName: newUser.lastName,
+      phoneNumber: newUser.phoneNumber,
+      role: newUser.role,
+    };
+    return { ...filteredNewUser, accessToken };
   } catch (error) {
-    return 'something went wrong';
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        return { error: true, message: 'Email already registered' };
+      }
+    }
+    return { error: true, message: 'something went wrong' };
   }
 };
