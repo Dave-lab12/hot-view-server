@@ -1,16 +1,13 @@
-import express, { Request } from 'express';
+import express from 'express';
 
-import { httpRegisterUser } from './auth.controller';
+import { validate } from '../../middleware/validate';
+import { createUserSchema, loginUserSchema } from '../../schema/user.schema';
+
+import { httpRegisterUser, httpLoginUser } from './auth.controller';
 
 const authRouter = express.Router();
 
-authRouter.get('/login', () => {
-  return 'hi';
-});
-authRouter.post('/register', (req: Request) => {
-  // console.log(req.body);
-  httpRegisterUser(req.body);
-  return 'hi';
-});
+authRouter.post('/login', validate(loginUserSchema), httpLoginUser);
+authRouter.post('/register', validate(createUserSchema), httpRegisterUser);
 
 export default authRouter;
