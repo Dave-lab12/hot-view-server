@@ -32,9 +32,3 @@ export const loginUserSchema = z.object({
       .min(8, 'Invalid email or password'),
   }),
 });
-
-// export type CreateUserInput = TypeOf<typeof createUserSchema="">['body'];
-// export type LoginUserInput = TypeOf<typeof loginUserSchema="">['body'];
-// export type CreateUserInput = z.infer<typeof createUserSchema>;
-// export type LoginUserInput = z.infer<typeof loginUserSchema>;
-// export default { createUserSchema, loginUserSchema };
