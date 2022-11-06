@@ -2,7 +2,7 @@ import { PrismaClient, Prisma } from '@prisma/client';
 import bcrypt from 'bcrypt';
 
 import config from '../../config/default';
-import { signJwt } from '../utils/jwt';
+import { signJwt, verifyJwt } from '../utils/jwt';
 import { RegisterData } from '../types/registerUser';
 import { LoginData } from '../types/loginUser';
 
@@ -16,14 +16,15 @@ export const getUserData = async (data: LoginData) => {
     },
   });
   if (!user) {
-    return { error: true, message: 'User not registered' };
+    return { success: false, message: 'User not registered' };
   }
   const checkPassword = bcrypt.compareSync(password, user.password);
-  if (!checkPassword) return { error: true, message: 'Invalid credentials' };
+  if (!checkPassword) return { success: false, message: 'Invalid credentials' };
   const accessToken = signJwt(
     { sub: user.id },
     { expiresIn: `${config.app.accessTokenExpiresIn}` }
   );
+
   const userResult = {
     firstName: user.firstName,
     lastName: user.lastName,
@@ -31,7 +32,15 @@ export const getUserData = async (data: LoginData) => {
     role: user.role,
     phoneNumber: user.phoneNumber,
   };
-  return { ...userResult, accessToken };
+  const token = verifyJwt(accessToken);
+  if (!token.payload) return { success: false, message: token.expired };
+
+  return {
+    success: true,
+    data: { ...userResult },
+    token: token.payload,
+    accessToken,
+  };
 };
 
 export const registerUserData = async (data: RegisterData) => {
@@ -59,9 +68,9 @@ export const registerUserData = async (data: RegisterData) => {
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === 'P2002') {
-        return { error: true, message: 'Email already registered' };
+        return { success: false, message: 'Email already registered' };
       }
     }
-    return { error: true, message: 'something went wrong' };
+    return { success: false, message: 'something went wrong' };
   }
 };
