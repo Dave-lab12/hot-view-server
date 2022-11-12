@@ -25,12 +25,12 @@ export async function httpLoginUser(req: Request, res: Response) {
       .status(401)
       .json({ success: false, message: userResponse.message });
   }
-  if ('accessToken' in userResponse) {
-    res.cookie('accessToken', userResponse.accessToken, {
-      maxAge: 300000,
-      httpOnly: true,
-    });
-  }
+  // if ('accessToken' in userResponse) {
+  // res.cookie('accessToken', userResponse.accessToken, {
+  //   maxAge: 300000,
+  //   httpOnly: true,
+  // });
+  // }
   return res.status(200).json({ success: true, data: userResponse.data });
 }
 

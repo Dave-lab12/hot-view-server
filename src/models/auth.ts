@@ -1,12 +1,27 @@
 import { PrismaClient, Prisma } from '@prisma/client';
 import bcrypt from 'bcrypt';
 
-import config from '../../config/default';
-import { signJwt, verifyJwt } from '../utils/jwt';
+// import config from '../../config/default';
+// import { signJwt, verifyJwt } from '../utils/jwt';
 import { RegisterData } from '../types/registerUser';
 import { LoginData } from '../types/loginUser';
 
 const prisma = new PrismaClient();
+
+export const getUserDataFromId = async (id: string) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!user) {
+    return { success: false, message: 'User not found' };
+  }
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  const { password, ...userData } = user;
+  return { success: true, data: userData };
+};
 
 export const getUserData = async (data: LoginData) => {
   const { email, password } = data;
@@ -20,26 +35,12 @@ export const getUserData = async (data: LoginData) => {
   }
   const checkPassword = bcrypt.compareSync(password, user.password);
   if (!checkPassword) return { success: false, message: 'Invalid credentials' };
-  const accessToken = signJwt(
-    { sub: user.id },
-    { expiresIn: `${config.app.accessTokenExpiresIn}` }
-  );
 
-  const userResult = {
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
-    role: user.role,
-    phoneNumber: user.phoneNumber,
-  };
-  const token = verifyJwt(accessToken);
-  if (!token.payload) return { success: false, message: token.expired };
-
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  const { password: pass, ...userData } = user;
   return {
     success: true,
-    data: { ...userResult },
-    token: token.payload,
-    accessToken,
+    data: { ...userData },
   };
 };
 
@@ -56,7 +57,7 @@ export const registerUserData = async (data: RegisterData) => {
         password: hashedPassword,
       },
     });
-    const accessToken = signJwt(newUser);
+    // const accessToken = signJwt(newUser);
     const filteredNewUser = {
       email: newUser.email,
       firstName: newUser.firstName,
@@ -64,13 +65,13 @@ export const registerUserData = async (data: RegisterData) => {
       phoneNumber: newUser.phoneNumber,
       role: newUser.role,
     };
-    return { ...filteredNewUser, accessToken };
+    return { data: { ...filteredNewUser } };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === 'P2002') {
         return { success: false, message: 'Email already registered' };
       }
     }
-    return { success: false, message: 'something went wrong' };
+    return { success: false, message: 'Something went wrong' };
   }
 };

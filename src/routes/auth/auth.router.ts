@@ -1,4 +1,5 @@
 import express from 'express';
+import passport from 'passport';
 
 import { validate } from '../../middleware/validate';
 import { createUserSchema, loginUserSchema } from '../../schema/user.schema';
@@ -11,7 +12,12 @@ import {
 
 const authRouter = express.Router();
 
-authRouter.post('/login', validate(loginUserSchema), httpLoginUser);
+authRouter.post(
+  '/login',
+  validate(loginUserSchema),
+  passport.authenticate('local'),
+  httpLoginUser
+);
 authRouter.post('/register', validate(createUserSchema), httpRegisterUser);
 authRouter.delete('/logout', httpLogoutUser);
 
