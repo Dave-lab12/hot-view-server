@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 
 import { registerUserData, getUserData } from '../../models/auth';
 import { RegisterData } from '../../types/registerUser';
@@ -25,19 +25,18 @@ export async function httpLoginUser(req: Request, res: Response) {
       .status(401)
       .json({ success: false, message: userResponse.message });
   }
-  if ('accessToken' in userResponse) {
-    res.cookie('accessToken', userResponse.accessToken, {
-      maxAge: 300000,
-      httpOnly: true,
-    });
-  }
   return res.status(200).json({ success: true, data: userResponse.data });
 }
 
-export function httpLogoutUser(req: Request, res: Response) {
-  res.cookie('accessToken', '', {
-    maxAge: 0,
-    httpOnly: true,
+export function httpLogoutUser(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    return res.status(200).send({ success: true });
   });
-  return res.status(200).send({ success: true });
 }
