@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
 type Role = 'ADMIN' | 'BASIC';
-// type Children = [Female, Male];
 
 export const hasRole = (roles: Role[]) => {
   return function (req: Request, res: Response, next: NextFunction) {
