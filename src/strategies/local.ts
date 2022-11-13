@@ -1,5 +1,6 @@
 import passportLocal from 'passport-local';
 import passport from 'passport';
+import { Express } from 'express';
 
 import { getUserData, getUserDataFromId } from '../models/auth';
 
@@ -32,16 +33,14 @@ const strategy = new LocalStrategy(customFields, verifyCallback);
 passport.use(strategy);
 
 passport.serializeUser((user, done) => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  done(null, user.data.id);
+  done(null, user);
 });
 
-passport.deserializeUser(async (userId, done) => {
+passport.deserializeUser(async (user: Express.User, done) => {
   try {
-    const getUser = await getUserDataFromId(userId as string);
+    const getUser = await getUserDataFromId(user?.data?.id as string);
     if (getUser.success) {
-      done(null, getUser?.data);
+      done(null, getUser as Express.User);
     }
   } catch (error) {
     done(error);
