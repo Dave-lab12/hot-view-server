@@ -10,7 +10,11 @@
     "plugin:@shopify/prettier"
   ],
   "env": {
-    "jest": true
+    "jest": true,
+    "node": true
+  },
+  "globals": {
+    "process": true
   },
   "rules": {
     "no-console": 2, // change to 0 to enable console

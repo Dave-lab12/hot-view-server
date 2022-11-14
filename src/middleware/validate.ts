@@ -3,15 +3,14 @@ import { AnyZodObject, ZodError } from 'zod';
 
 export const validate =
   (schema: AnyZodObject) =>
-  // eslint-disable-next-line consistent-return
-  (req: Request, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     try {
-      schema.parse({
+      await schema.parseAsync({
         params: req.params,
         query: req.query,
         body: req.body,
       });
-      next();
+      return next();
     } catch (error) {
       if (error instanceof ZodError) {
         return res.status(400).json({
@@ -19,6 +18,6 @@ export const validate =
           error: error.errors,
         });
       }
-      next(error);
+      return next(error);
     }
   };

@@ -16,16 +16,22 @@ datasource db {
 }
 
 model User {
-  id              String  @id @default(uuid())
-  firstName       String
-  lastName        String
-  email           String  @unique
-  phonenumber     Int?
-  passwordConfirm String
-  role            Role    @default(BASIC)
-  password        String
-  profileId       String? @unique @default(uuid())
-  refreshToken    String?
+  id          String  @id @default(uuid())
+  firstName   String
+  lastName    String
+  email       String  @unique
+  phoneNumber Int?
+  role        Role    @default(BASIC)
+  password    String
+  profileId   String? @unique @default(uuid())
+}
+
+model Session {
+  sid    String   @id @db.VarChar()
+  sess   Json     @db.Json
+  expire DateTime @db.Timestamp(6)
+
+  // @@index([expire], map: "IDX_session_expire")
 }
 
 model Article {
