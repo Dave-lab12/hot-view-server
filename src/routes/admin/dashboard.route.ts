@@ -18,7 +18,7 @@ adminRouter.get('/dashboard', (req, res) => {
 });
 
 adminRouter.post('/articles', validate(createArticleSchema), httpCreateArticle);
-adminRouter.put(
+adminRouter.patch(
   '/articles:id',
   validate(updateArticleSchema),
   httpUpdateArticle
