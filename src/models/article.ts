@@ -2,7 +2,6 @@ import { PrismaClient, Prisma } from '@prisma/client';
 
 import { CreateData } from '../types/createArticle';
 import { UpdateData } from '../types/updateArticle';
-import { getArticle } from '../routes/article/article.service';
 
 const prisma = new PrismaClient();
 
