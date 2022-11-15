@@ -33,3 +33,22 @@ model Session {
 
   // @@index([expire], map: "IDX_session_expire")
 }
+
+model Article {
+  id          String    @id @default(uuid())
+  title       String
+  category_id String
+  content     String
+  image_id    String?
+  view        Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+}
+
+model Categroy {
+  category_id   String @id @default(uuid())
+  category_name String
+  news_id       String
+
+  @@unique([category_name])
+}
