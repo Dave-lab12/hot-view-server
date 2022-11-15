@@ -30,6 +30,3 @@ export const updateArticleSchema = object({
     }
   }),
 });
-
-export type CreateArticleSchema = z.infer<typeof createArticleSchema>;
-export type UpdateArticleSchema = z.infer<typeof updateArticleSchema>;
