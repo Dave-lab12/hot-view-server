@@ -14,18 +14,24 @@ const customFields = {
 const verifyCallback = async (
   username: string,
   password: string,
-  // eslint-disable-next-line no-unused-vars
-  done: (err: unknown, id?: unknown) => void
+  done: (
+    // eslint-disable-next-line no-unused-vars
+    error: unknown,
+    // eslint-disable-next-line no-unused-vars
+    user?: unknown,
+    // eslint-disable-next-line no-unused-vars
+    options?: passportLocal.IVerifyOptions | undefined
+  ) => void
 ) => {
   try {
     const getCredentials = await getUserData({ email: username, password });
 
     if (!getCredentials.success) {
-      done(null, false);
+      return done(null, false, { message: getCredentials.message as string });
     }
-    done(null, getCredentials);
+    return done(null, getCredentials);
   } catch (error) {
-    done(error);
+    return done(error);
   }
 };
 const strategy = new LocalStrategy(customFields, verifyCallback);
