@@ -46,6 +46,7 @@ export const getUserData = async (data: LoginData) => {
 
 export const registerUserData = async (data: RegisterData) => {
   const { email, password, firstName, lastName, phoneNumber } = data;
+
   const hashedPassword = bcrypt.hashSync(password, 8);
   try {
     const newUser = await prisma.user.create({
@@ -57,7 +58,6 @@ export const registerUserData = async (data: RegisterData) => {
         password: hashedPassword,
       },
     });
-    // const accessToken = signJwt(newUser);
     const filteredNewUser = {
       email: newUser.email,
       firstName: newUser.firstName,
@@ -65,7 +65,7 @@ export const registerUserData = async (data: RegisterData) => {
       phoneNumber: newUser.phoneNumber,
       role: newUser.role,
     };
-    return { data: { ...filteredNewUser } };
+    return { success: true, data: { ...filteredNewUser } };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === 'P2002') {

@@ -14,8 +14,7 @@
     "coverage": "jest --coverage",
     "lint": "eslint src",
     "lint-and-fix": "eslint . --ext .ts --fix",
-    "migrateDev": "prisma db push",
-    "release": "release-it"
+    "migrateDev": "prisma db push"
   },
   "repository": {
     "type": "git",
@@ -43,7 +42,6 @@
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
-    "@release-it/conventional-changelog": "^5.1.1",
     "@shopify/eslint-plugin": "^42.0.1",
     "@types/bcrypt": "^5.0.0",
     "@types/body-parser": "^1.19.2",
@@ -74,7 +72,6 @@
     "pinst": "^3.0.0",
     "prettier": "^2.7.1",
     "prisma": "^4.5.0",
-    "release-it": "^15.5.0",
     "supertest": "^6.3.0",
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
@@ -83,31 +80,5 @@
   "lint-staged": {
     "*": "yarn format",
     "*.ts": "yarn lint"
-  },
-  "release-it": {
-    "git": {
-      "commitMessage": "chore: release v${version}"
-    },
-    "github": {
-      "publish": false
-    },
-    "plugins": {
-      "@release-it/conventional-changelog": {
-        "infile": "CHANGELOG.mg",
-        "preset": {
-          "name": "conventionalcommits",
-          "types": [
-            {
-              "type": "feat",
-              "section": "Features"
-            },
-            {
-              "type": "fix",
-              "section": "Bug Fixes"
-            }
-          ]
-        }
-      }
-    }
   }
 }

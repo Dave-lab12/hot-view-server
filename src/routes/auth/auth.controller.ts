@@ -11,10 +11,11 @@ export async function httpRegisterUser(req: Request, res: Response) {
   if (!registeredUser.success) {
     return res
       .status(409)
-      .json({ success: false, msg: registeredUser.message });
+      .json({ success: false, message: registeredUser.message });
   }
-
-  return res.status(200).json({ success: true, data: registeredUser });
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  const { success, ...userData } = registeredUser;
+  return res.status(200).json({ success: true, data: userData.data });
 }
 export async function httpLoginUser(req: Request, res: Response) {
   const data: LoginData = req.body;
