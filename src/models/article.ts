@@ -6,15 +6,15 @@ import { UpdateData } from '../types/updateArticle';
 const prisma = new PrismaClient();
 
 export const createArticleData = async (data: CreateData) => {
-  const { title, category_id, content, image_id } = data;
+  const { title, categoryId, content, imageId } = data;
 
   try {
     const newArticle = await prisma.article.create({
       data: {
         title,
-        category_id,
+        category_id: categoryId,
         content,
-        image_id,
+        image_id: imageId,
       },
     });
 
@@ -25,7 +25,7 @@ export const createArticleData = async (data: CreateData) => {
       image_id: newArticle.image_id,
       view: newArticle.view,
     };
-    return { data: { ...filteredNewArticle } };
+    return { success: true, data: { ...filteredNewArticle } };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return {
@@ -38,7 +38,7 @@ export const createArticleData = async (data: CreateData) => {
 };
 
 export const updateArticleData = async (data: UpdateData) => {
-  const { id, title, content, category_id, image_id } = data;
+  const { id, title, content, categoryId, imageId } = data;
 
   try {
     const updatedArticle = await prisma.article.update({
@@ -49,8 +49,8 @@ export const updateArticleData = async (data: UpdateData) => {
         // if the target field is false, then return undefined, otherwise return it's value
         title: title || undefined,
         content: content || undefined,
-        category_id: category_id || undefined,
-        image_id: image_id || undefined,
+        category_id: categoryId || undefined,
+        image_id: imageId || undefined,
       },
     });
 
@@ -62,7 +62,7 @@ export const updateArticleData = async (data: UpdateData) => {
       view: updatedArticle.view,
     };
 
-    return { data: { ...filteredUpdatedArticle } };
+    return { success: true, data: { ...filteredUpdatedArticle } };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return {
@@ -91,7 +91,7 @@ export const getArticlesData = async () => {
         view: true,
       },
     });
-    return { data: { ...articles } };
+    return { success: true, data: { ...articles } };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return {
@@ -112,7 +112,7 @@ export const getArticleData = async (id: string) => {
       },
     });
 
-    return { data: { ...article } };
+    return { success: true, data: { ...article } };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return {
@@ -135,7 +135,7 @@ export const deleteArticleData = async (id: string) => {
         id,
       },
     });
-    return { data: { deletedArticle } };
+    return { success: true, data: { deletedArticle } };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return { success: false, message: "Couldn't delete the article" };

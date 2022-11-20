@@ -1,6 +1,6 @@
 export interface CreateData {
   title: string;
-  category_id: string;
+  categoryId: string;
   content: string;
-  image_id: string | null;
+  imageId: string | null;
 }
