@@ -7,7 +7,7 @@ dotenv.config();
 const dev = {
   app: {
     host: 'localhost',
-    port: 8001,
+    port: process.env.PORT || 8001,
   },
   test: {
     email: process.env.TEST_EMAIL,
