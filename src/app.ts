@@ -39,5 +39,5 @@ app.use(passport.session());
 app.use(morgan('combined'));
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/admin', hasRole(['ADMIN']), adminRouter);
-app.use('/api/articles', articleRouter);
+app.use('/api/v1/articles', articleRouter);
 export default app;
