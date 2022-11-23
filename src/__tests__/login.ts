@@ -1,6 +1,5 @@
 import request from 'supertest';
 
-import config from '../../config/default';
 import app from '../app';
 
 describe('Login', () => {
@@ -18,12 +17,13 @@ describe('Login', () => {
 
   it('displays errors on invalid credentials', async () => {
     const payload = {
-      email: 'test@gmail.com',
-      password: '22222222',
+      email: 'test1@gmail.com',
+      password: '222221222',
     };
     const res = await request(app).post('/api/v1/auth/login').send(payload);
-    // const expected = { message: 'User not registered' };
-    expect(res.body.success).toBe(true);
+
+    const expected = { message: 'User not registered' };
+    expect(expected).toMatchObject(res.body);
   });
 
   it('displays error when user inputs invalid password or email', async () => {
@@ -55,8 +55,8 @@ describe('Login', () => {
   });
   it('sends proper response when user inputs proper credentials', async () => {
     const payload = {
-      email: config.test.email,
-      password: config.test.password,
+      email: 'ci@gmail.com',
+      password: '22222222',
     };
     const res = await request(app).post('/api/v1/auth/login').send(payload);
     expect(res.body.success).toBe(true);
