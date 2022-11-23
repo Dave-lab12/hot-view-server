@@ -1,4 +1,4 @@
-name: 'Test'
+name: 'Running Test'
 
 on:
   pull_request:
@@ -9,17 +9,31 @@ on:
 
 jobs:
   test:
-    env:
-      DATABASE_URL: postgres://postgres:root@localhost:5432/hot-view
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: ['ubuntu-latest']
         node-version: ['16.x']
+    services:
+      postgres:
+        image: postgres
+
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres
+
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
     steps:
       - uses: harmon758/postgresql-action@v1
         with:
-          postgresql version: '11' 
+          postgresql version: '11'
       - name: 'Checkout repository'
         uses: actions/checkout@v3
 
@@ -27,5 +41,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - name: 'Run tests'
-        run: yarn && yarn test
+      - name: 'install dependency'
+        run: yarn
+      - name: "migrate database"
+        run: prisma migrateDev
+        env: 
+          DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
+      - name: "Run Tests"
+        run: yarn test
+          env:
+            DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
+
