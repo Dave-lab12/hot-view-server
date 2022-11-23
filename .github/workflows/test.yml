@@ -42,6 +42,6 @@ jobs:
       - name: 'install dependency'
         run: yarn install --frozen-lockfile
       - name: 'migrate database'
-        run: prisma migrateDev
+        run: yarn migrateDev
       - name: 'Run Tests'
         run: yarn test
