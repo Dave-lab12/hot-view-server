@@ -20,7 +20,6 @@ jobs:
       - uses: harmon758/postgresql-action@v1
         with:
           postgresql version: '11' 
-    steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v3
 
