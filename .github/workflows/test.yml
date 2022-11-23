@@ -46,6 +46,6 @@ jobs:
           DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
       - name: "Run Tests"
         run: yarn test
-          env:
+        env:
             DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
 
