@@ -9,11 +9,17 @@ on:
 
 jobs:
   test:
+    env:
+      DATABASE_URL: postgres://postgres:root@localhost:5432/hot-view
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: ['ubuntu-latest']
         node-version: ['16.x']
+    steps:
+      - uses: harmon758/postgresql-action@v1
+        with:
+          postgresql version: '11' 
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v3
@@ -22,6 +28,5 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-
       - name: 'Run tests'
         run: yarn && yarn test
