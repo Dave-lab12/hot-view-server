@@ -12,17 +12,6 @@ import {
 
 const authRouter = express.Router();
 
-// authRouter.post(
-//   '/login',
-//   validate(loginUserSchema),
-//   (req: Request, res: Response) => {
-//     passport.authenticate('local', (err, user, info) => {
-//       console.log(err, info, user, req.statusCode);
-//     });
-//   }
-//   // httpLoginUser
-// );
-
 authRouter.post(
   '/login',
   validate(loginUserSchema),
