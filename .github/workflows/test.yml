@@ -31,9 +31,6 @@ jobs:
         ports:
           - 5432:5432
     steps:
-      - uses: harmon758/postgresql-action@v1
-        with:
-          postgresql version: '11'
       - name: 'Checkout repository'
         uses: actions/checkout@v3
 
