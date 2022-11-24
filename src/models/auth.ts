@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt';
 // import { signJwt, verifyJwt } from '../utils/jwt';
 import { RegisterData } from '../types/registerUser';
 import { LoginData } from '../types/loginUser';
+import { generateSalt } from '../utils/generateSalt';
 
 const prisma = new PrismaClient();
 
@@ -46,8 +47,8 @@ export const getUserData = async (data: LoginData) => {
 
 export const registerUserData = async (data: RegisterData) => {
   const { email, password, firstName, lastName, phoneNumber } = data;
-
-  const hashedPassword = bcrypt.hashSync(password, 8);
+  const salt = await generateSalt();
+  const hashedPassword = await bcrypt.hash(password, salt);
   try {
     const newUser = await prisma.user.create({
       data: {
