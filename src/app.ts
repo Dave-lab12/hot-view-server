@@ -5,6 +5,8 @@ import morgan from 'morgan';
 import passport from 'passport';
 import session from 'express-session';
 import cors from 'cors';
+import { createClient } from 'redis';
+import connectRedis from 'connect-redis';
 
 import './strategies/local';
 import authRouter from './routes/auth/auth.router';
@@ -14,16 +16,37 @@ import { articleRouter } from './routes/article/article.router';
 
 const app: Express = express();
 
+app.set('trust proxy', 1);
 const THREE_SECOND = 30000;
+const RedisStore = connectRedis(session);
+
+const url = 'redis://localhost:6379';
+const redisClient = createClient({
+  url,
+  legacyMode: true,
+});
+
 dotenv.config();
 app.use(cors());
 app.use(bodyParser.json());
+
+redisClient.on('error', function (err) {
+  // eslint-disable-next-line no-console
+  console.log(`Could not establish a connection with redis. ${err}`);
+});
+redisClient.on('connect', function () {
+  // eslint-disable-next-line no-console
+  console.log('Connected to redis successfully');
+});
+redisClient.connect();
+
 app.use(
   session({
     secret: 'superSecret',
-    // store,
+    store: new RedisStore({ client: redisClient }),
     saveUninitialized: false,
     resave: true,
+    name: 'sessionId',
     cookie: {
       maxAge: THREE_SECOND,
       secure: false,
