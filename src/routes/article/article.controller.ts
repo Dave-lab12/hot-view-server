@@ -42,7 +42,7 @@ export async function httpsGetArticles(req: Request, res: Response) {
   if (!articles.success) {
     return res.status(404).json({ success: false, msg: articles.message });
   }
-  return res.status(200).json({ data: articles });
+  return res.status(200).json({ success: true, data: articles });
 }
 
 export async function httpGetArticle(req: Request, res: Response) {

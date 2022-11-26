@@ -14,6 +14,18 @@ async function main() {
       phoneNumber: 0,
     },
   });
+  await prisma.user.upsert({
+    where: { email: 'CI1@gmail.com' },
+    update: {},
+    create: {
+      email: 'CI1@gmail.com',
+      firstName: 'CI basic',
+      lastName: 'CI basic',
+      role: 'BASIC',
+      password: '$2b$10$AVzOzjgle8jTpZqvAdjTNere73KxU4bP.vEw.HvM9PPe0TLhj70/e',
+      phoneNumber: 0,
+    },
+  });
 }
 
 main()

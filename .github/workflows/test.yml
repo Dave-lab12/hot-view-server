@@ -43,5 +43,7 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: 'migrate database'
         run: yarn migrateDev
+      - name: 'seed database'
+        run: yarn seedCI
       - name: 'Run Tests'
         run: yarn test
