@@ -14,7 +14,8 @@
     "coverage": "jest --coverage",
     "lint": "eslint src",
     "lint-and-fix": "eslint . --ext .ts --fix",
-    "migrateDev": "prisma db push"
+    "migrateDev": "prisma db push",
+    "seedCI": "ts-node prisma/seed.ts"
   },
   "repository": {
     "type": "git",
