@@ -8,10 +8,7 @@ const dev = {
   app: {
     host: 'localhost',
     port: 8001,
-  },
-  test: {
-    email: process.env.TEST_EMAIL,
-    password: process.env.TEST_PASSWORD,
+    REDIS_URL: process.env.REDIS_URL,
   },
 };
 export default dev;
