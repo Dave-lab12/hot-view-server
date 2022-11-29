@@ -34,7 +34,7 @@ export function httpLogoutUser(
   res: Response,
   next: NextFunction
 ) {
-  req.logout(function (err) {
+  req.session.destroy((err) => {
     if (err) {
       return next(err);
     }
