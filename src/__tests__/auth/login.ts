@@ -31,5 +31,9 @@ describe('Login', () => {
     const res = await request(app).post('/api/v1/auth/login').send(payload);
     expect(res.body.success).toBe(true);
     expect(res.statusCode).toBe(200);
+
+    const logout = await request(app).delete('/api/v1/auth/logout');
+    expect(logout.body.success).toBe(true);
+    expect(logout.statusCode).toBe(200);
   });
 });
