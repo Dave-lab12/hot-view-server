@@ -14,7 +14,7 @@ import {
 const adminRouter = express.Router();
 
 adminRouter.get('/dashboard', (req, res) => {
-  res.send('admin route');
+  res.json({ success: true, data: 'admin' });
 });
 
 adminRouter.post('/articles', validate(createArticleSchema), httpCreateArticle);
