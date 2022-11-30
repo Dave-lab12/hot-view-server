@@ -4,7 +4,7 @@
 !.yarn/releases
 !.yarn/sdks*
 !.yarn/versions
-
+logs
 .vscode
 node_modules
 coverage

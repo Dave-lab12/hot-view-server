@@ -9,6 +9,7 @@ const dev = {
     host: 'localhost',
     port: 8001,
     REDIS_URL: process.env.REDIS_URL,
+    NODE_ENV: process.env.NODE_ENV,
   },
 };
 export default dev;
