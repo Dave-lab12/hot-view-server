@@ -40,9 +40,9 @@ export async function httpsGetArticles(req: Request, res: Response) {
   const articles = await getArticlesData();
 
   if (!articles.success) {
-    return res.status(404).json({ success: false, msg: articles.message });
+    return res.status(404).json({ success: false, message: articles.message });
   }
-  return res.status(200).json({ data: articles });
+  return res.status(200).json({ success: true, data: articles.data });
 }
 
 export async function httpGetArticle(req: Request, res: Response) {

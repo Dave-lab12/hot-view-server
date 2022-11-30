@@ -4,6 +4,6 @@ import { httpGetArticle, httpsGetArticles } from './article.controller';
 
 export const articleRouter = express.Router();
 
-articleRouter.get('/', httpGetArticle);
+articleRouter.get('/', httpsGetArticles);
 
-articleRouter.get('/:id', httpsGetArticles);
+articleRouter.get('/:id', httpGetArticle);

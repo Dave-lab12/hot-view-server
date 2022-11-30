@@ -1,4 +1,4 @@
-name: 'Test'
+name: 'Running Test'
 
 on:
   pull_request:
@@ -14,6 +14,34 @@ jobs:
       matrix:
         os: ['ubuntu-latest']
         node-version: ['16.x']
+    services:
+      postgres:
+        image: postgres
+
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      redis:
+        image: redis
+
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/hot-view
+      REDIS_URL: redis://localhost:6379
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v3
@@ -22,6 +50,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-
-      - name: 'Run tests'
-        run: yarn && yarn test
+      - name: 'install dependency'
+        run: yarn install --frozen-lockfile
+      - name: 'migrate database'
+        run: yarn migrateDev
+      - name: 'seed database'
+        run: yarn seedCI
+      - name: 'Run Tests'
+        run: yarn test

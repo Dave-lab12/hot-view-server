@@ -6,26 +6,25 @@ import { UpdateData } from '../types/updateArticle';
 const prisma = new PrismaClient();
 
 export const createArticleData = async (data: CreateData) => {
-  const { title, category_id, content, image_id } = data;
-
+  const { title, categoryId, content, imageId } = data;
   try {
     const newArticle = await prisma.article.create({
       data: {
         title,
-        category_id,
+        categoryId,
         content,
-        image_id,
+        image_id: imageId,
       },
     });
 
     const filteredNewArticle = {
       title: newArticle.title,
       content: newArticle.content,
-      category_id: newArticle.category_id,
+      categoryId: newArticle.categoryId,
       image_id: newArticle.image_id,
       view: newArticle.view,
     };
-    return { data: { ...filteredNewArticle } };
+    return { success: true, data: { ...filteredNewArticle } };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return {
@@ -33,12 +32,13 @@ export const createArticleData = async (data: CreateData) => {
         message: "Couldn't create Article due to invalid value",
       };
     }
+
     return { success: false, message: 'Something went wrong' };
   }
 };
 
 export const updateArticleData = async (data: UpdateData) => {
-  const { id, title, content, category_id, image_id } = data;
+  const { id, title, content, categoryId, imageId } = data;
 
   try {
     const updatedArticle = await prisma.article.update({
@@ -49,20 +49,20 @@ export const updateArticleData = async (data: UpdateData) => {
         // if the target field is false, then return undefined, otherwise return it's value
         title: title || undefined,
         content: content || undefined,
-        category_id: category_id || undefined,
-        image_id: image_id || undefined,
+        categoryId: categoryId || undefined,
+        image_id: imageId || undefined,
       },
     });
 
     const filteredUpdatedArticle = {
       title: updatedArticle.title,
       content: updatedArticle.content,
-      category_id: updatedArticle.category_id,
-      image_id: updatedArticle.category_id,
+      categoryId: updatedArticle.categoryId,
+      image_id: updatedArticle.categoryId,
       view: updatedArticle.view,
     };
 
-    return { data: { ...filteredUpdatedArticle } };
+    return { success: true, data: { ...filteredUpdatedArticle } };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return {
@@ -84,14 +84,14 @@ export const getArticlesData = async () => {
       select: {
         id: true,
         title: true,
-        category_id: true,
+        categoryId: true,
         content: true,
         image_id: true,
         createdAt: true,
         view: true,
       },
     });
-    return { data: { ...articles } };
+    return { success: true, data: articles };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return {
@@ -112,7 +112,7 @@ export const getArticleData = async (id: string) => {
       },
     });
 
-    return { data: { ...article } };
+    return { success: true, data: { ...article } };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return {
@@ -135,7 +135,7 @@ export const deleteArticleData = async (id: string) => {
         id,
       },
     });
-    return { data: { deletedArticle } };
+    return { success: true, data: { deletedArticle } };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return { success: false, message: "Couldn't delete the article" };

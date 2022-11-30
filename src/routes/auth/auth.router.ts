@@ -1,43 +1,32 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import passport from 'passport';
 
 import { validate } from '../../middleware/validate';
 import { createUserSchema, loginUserSchema } from '../../schema/user.schema';
 
-import {
-  httpRegisterUser,
-  // httpLoginUser,
-  httpLogoutUser,
-} from './auth.controller';
+import { httpRegisterUser, httpLogoutUser } from './auth.controller';
 
 const authRouter = express.Router();
-
-// authRouter.post(
-//   '/login',
-//   validate(loginUserSchema),
-//   (req: Request, res: Response) => {
-//     passport.authenticate('local', (err, user, info) => {
-//       console.log(err, info, user, req.statusCode);
-//     });
-//   }
-//   // httpLoginUser
-// );
 
 authRouter.post(
   '/login',
   validate(loginUserSchema),
-  function (req, res, next) {
+  function (req: Request, res: Response, next: NextFunction) {
     passport.authenticate('local', function (err, user, info) {
-      // console.log(err, user, info);
-      if (err) return next(err);
-      if (user) {
-        return res.status(200).json(user);
-      } else {
-        return res.status(400).json(info);
+      if (err) {
+        return next(err);
       }
+      if (!user) {
+        return res.json({ success: false, data: info });
+      }
+      return req.logIn(user, function (error) {
+        if (error) {
+          return next(error);
+        }
+        return res.send({ success: true, data: user.data });
+      });
     })(req, res, next);
   }
-  // httpLoginUser
 );
 authRouter.post('/register', validate(createUserSchema), httpRegisterUser);
 authRouter.delete('/logout', httpLogoutUser);
