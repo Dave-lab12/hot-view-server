@@ -8,6 +8,7 @@ import morgan from 'morgan';
 import passport from 'passport';
 import session from 'express-session';
 import cors from 'cors';
+import helmet from 'helmet';
 import { createClient } from 'redis';
 import connectRedis from 'connect-redis';
 
@@ -36,6 +37,7 @@ const accessLogStream = fs.createWriteStream(
 );
 dotenv.config();
 app.use(cors());
+app.use(helmet());
 app.use(
   morgan('combined', {
     stream: accessLogStream,
