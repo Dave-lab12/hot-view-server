@@ -3,7 +3,7 @@ import { object, string, z } from 'zod';
 export const createArticleSchema = object({
   body: object({
     title: string({ required_error: 'Title is required' }),
-    category_id: string({ required_error: 'Category_id is required' }),
+    categoryId: string({ required_error: 'CategoryId is required' }),
     content: string({ required_error: 'Content is required' }),
   }),
 });
@@ -11,14 +11,14 @@ export const createArticleSchema = object({
 export const updateArticleSchema = object({
   body: object({
     title: string().optional(),
-    category_id: string().optional(),
+    categoryId: string().optional(),
     content: string().optional(),
     image_id: string().optional(),
   }).superRefine((data, ctx) => {
-    const { title, category_id, content, image_id } = data;
+    const { title, categoryId, content, image_id } = data;
     const hasNoInput = !(
       title !== undefined ||
-      category_id !== undefined ||
+      categoryId !== undefined ||
       content !== undefined ||
       image_id !== undefined
     );

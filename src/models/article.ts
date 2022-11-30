@@ -7,12 +7,11 @@ const prisma = new PrismaClient();
 
 export const createArticleData = async (data: CreateData) => {
   const { title, categoryId, content, imageId } = data;
-
   try {
     const newArticle = await prisma.article.create({
       data: {
         title,
-        category_id: categoryId,
+        categoryId,
         content,
         image_id: imageId,
       },
@@ -21,7 +20,7 @@ export const createArticleData = async (data: CreateData) => {
     const filteredNewArticle = {
       title: newArticle.title,
       content: newArticle.content,
-      category_id: newArticle.category_id,
+      categoryId: newArticle.categoryId,
       image_id: newArticle.image_id,
       view: newArticle.view,
     };
@@ -33,6 +32,7 @@ export const createArticleData = async (data: CreateData) => {
         message: "Couldn't create Article due to invalid value",
       };
     }
+
     return { success: false, message: 'Something went wrong' };
   }
 };
@@ -49,7 +49,7 @@ export const updateArticleData = async (data: UpdateData) => {
         // if the target field is false, then return undefined, otherwise return it's value
         title: title || undefined,
         content: content || undefined,
-        category_id: categoryId || undefined,
+        categoryId: categoryId || undefined,
         image_id: imageId || undefined,
       },
     });
@@ -57,8 +57,8 @@ export const updateArticleData = async (data: UpdateData) => {
     const filteredUpdatedArticle = {
       title: updatedArticle.title,
       content: updatedArticle.content,
-      category_id: updatedArticle.category_id,
-      image_id: updatedArticle.category_id,
+      categoryId: updatedArticle.categoryId,
+      image_id: updatedArticle.categoryId,
       view: updatedArticle.view,
     };
 
@@ -84,14 +84,14 @@ export const getArticlesData = async () => {
       select: {
         id: true,
         title: true,
-        category_id: true,
+        categoryId: true,
         content: true,
         image_id: true,
         createdAt: true,
         view: true,
       },
     });
-    return { success: true, data: { ...articles } };
+    return { success: true, data: articles };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return {
