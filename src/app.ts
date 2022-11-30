@@ -34,6 +34,7 @@ app.use(bodyParser.json());
 redisClient.on('error', function (err) {
   // eslint-disable-next-line no-console
   console.log(`Could not establish a connection with redis ⚠️. ${err}`);
+  redisClient.disconnect();
 });
 redisClient.on('connect', function () {
   // eslint-disable-next-line no-console
