@@ -5,7 +5,7 @@ COPY package.json yarn* /usr/src/app/
 COPY prisma  ./prisma/
 COPY tsconfig.json ./
 
-RUN chmod +x wait-for-it.sh \
+RUN chmod +x wait-for.sh \
     && chmod +x docker-entrypoint-test.sh \
     && yarn
 
