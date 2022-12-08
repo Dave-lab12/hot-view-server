@@ -5,6 +5,8 @@ COPY package.json yarn* /usr/src/app/
 COPY prisma  ./prisma/
 COPY tsconfig.json ./
 
+RUN yarn
+
 COPY . .
 
 RUN npx prisma generate
