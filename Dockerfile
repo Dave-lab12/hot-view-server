@@ -1,18 +1,21 @@
-# Installs Node.js image
-FROM node:16.13.1-alpine3.14
-
-# sets the working directory for any RUN, CMD, COPY command
-# all files we put in the Docker container running the server will be in /usr/src/app (e.g. /usr/src/app/package.json)
+FROM node:18.12.1-alpine3.16
 WORKDIR /usr/src/app
+COPY package.json yarn* /usr/src/app/
 
-# Copies package.json, package-lock.json, tsconfig.json, .env to the root of WORKDIR
-COPY ["package.json", "yarn.lock", "tsconfig.json", ".env", "./"]
+COPY prisma  ./prisma/
+COPY tsconfig.json ./
 
-# Copies everything in the src directory to WORKDIR/src
-COPY ./src ./src
 
-# Installs all packages
+# COPY ./docker-entrypoint.sh /docker-entrypoint.sh
+# RUN chmod +x /docker-entrypoint.sh
+# ENTRYPOINT ["/docker-entrypoint.sh"]
+
 RUN yarn
 
-# Runs the dev npm script to build & start the server
-CMD yarn dev
+COPY . .
+
+RUN npx prisma generate
+
+EXPOSE 8000
+
+CMD [ "yarn","dev" ]

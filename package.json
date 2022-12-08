@@ -17,7 +17,9 @@
     "lint-and-fix": "eslint . --ext .ts --fix",
     "migrateDev": "prisma db push",
     "seedCI": "ts-node prisma/seed.ts",
-    "postinstall": "$(yarn bin)/pm2 install typescript"
+    "postinstall": "$(yarn bin)/pm2 install typescript",
+    "prismaGenerate": "prisma generate",
+    "start:migrate:prod": "prisma migrate deploy && npm run start:prod"
   },
   "repository": {
     "type": "git",
