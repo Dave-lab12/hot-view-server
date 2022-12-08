@@ -4,17 +4,13 @@ on:
   pull_request:
   push:
     branches: ['main']
-  # The "workflow_dispatch" event gives us a button in GitHub's "Action" UI
   workflow_dispatch:
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Test with docker-compose
-        uses: smartlyio/docker-compose-action@v1
+      - name: docker compose action
+        uses: isbang/compose-action@v1.4.1
         with:
-          composeFile: docker-compose.ci.yml
-          serviceName: test
-          build: true
-          push: 'on:push'
+          compose-file: './docker-compose.ci.yml'
