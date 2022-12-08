@@ -10,7 +10,8 @@ async function main() {
       firstName: 'CI admin',
       lastName: 'CI admin',
       role: 'ADMIN',
-      password: '$2b$10$AVzOzjgle8jTpZqvAdjTNere73KxU4bP.vEw.HvM9PPe0TLhj70/e',
+      // eslint-disable-next-line line-comment-position
+      password: '$2b$10$AVzOzjgle8jTpZqvAdjTNere73KxU4bP.vEw.HvM9PPe0TLhj70/e', // admin
       phoneNumber: 0,
     },
   });

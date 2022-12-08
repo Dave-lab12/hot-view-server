@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  db:
+    container_name: postgres
+    image: postgres:15.1-alpine3.17
+    ports:
+      - '${DB_PORT}:${DB_PORT}'
+    volumes:
+      - data:/data/db
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+
+  api:
+    container_name: api
+    restart: unless-stopped
+    build: .
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+    depends_on:
+      - db
+      - cache
+    environment:
+      - DATABASE_URL =${DB_SCHEMA}://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+    env_file:
+      - .env
+    volumes:
+      - .:/usr/src/app
+      - /app/node_modules
+    command: ./docker-entrypoint.sh
+
+  cache:
+    container_name: redis
+    image: redis:7.0.5-alpine3.17
+    ports:
+      - '${REDIS_PORT}:${REDIS_PORT}'
+    volumes:
+      - redisData:/data/cache
+
+volumes:
+  data:
+  redisData:
