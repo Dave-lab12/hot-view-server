@@ -1,17 +1,19 @@
 #!/bin/sh
 
-echo "Waiting for database to start..."
+# echo "Waiting for database to start..."
 
-./wait-for db:${DB_PORT} 
+# ./wait-for db:${DB_PORT} 
 
-echo "migrating database ..."
+# echo "migrating database ..."
 
-yarn migrateDev
+# yarn migrateDev
 
-echo "seeding .."
+# echo "seeding .."
 
-yarn seedCI
+# yarn seedCI
 
-echo "starting the server"
+# echo "starting the server"
 
-yarn test
+# yarn test
+
+exec ./wait-for-it.sh -h "${DB_HOST}" -p "${DB_PORT}" -t 300 -s -- yarn migrateDev && yarn seedCI & yarn test
