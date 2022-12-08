@@ -1,12 +1,16 @@
 #!/bin/sh
 
-echo "Waiting for MongoDB to start..."
+echo "Waiting for database to start..."
 
-./wait-for db:5432 
+./wait-for db:${DB_PORT} 
 
 echo "migrating database ..."
 
 yarn migrateDev
+
+echo "seeding .."
+
+yarn seedCI
 
 echo "starting the server"
 
