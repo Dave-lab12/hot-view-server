@@ -9,52 +9,12 @@ on:
 
 jobs:
   test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: ['ubuntu-latest']
-        node-version: ['16.x']
-    services:
-      postgres:
-        image: postgres
-
-        env:
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_USER: postgres
-
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-      redis:
-        image: redis
-
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 6379:6379
-    env:
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/hot-view
-      REDIS_URL: redis://localhost:6379
+    runs-on: ubuntu-latest
     steps:
-      - name: 'Checkout repository'
-        uses: actions/checkout@v3
-
-      - name: 'Use Node.js v${{ matrix.node-version }}'
-        uses: actions/setup-node@v3
+      - name: Test with docker-compose
+        uses: smartlyio/docker-compose-action@v1
         with:
-          node-version: ${{ matrix.node-version }}
-      - name: 'install dependency'
-        run: yarn install --frozen-lockfile
-      - name: 'migrate database'
-        run: yarn migrateDev
-      - name: 'seed database'
-        run: yarn seedCI
-      - name: 'Run Tests'
-        run: yarn test
+          composeFile: docker-compose.ci.yml
+          serviceName: test
+          build: true
+          push: 'on:push'
