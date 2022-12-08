@@ -1,6 +1,5 @@
 #!/bin/sh
 
-echo "Waiting for database to start..."
 
 ./wait-for db:${DB_PORT} 
 
