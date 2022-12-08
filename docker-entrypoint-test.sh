@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -l
 
 # echo "Waiting for database to start..."
 
