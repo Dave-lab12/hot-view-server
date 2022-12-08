@@ -9,6 +9,18 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      SERVER_PORT: 8001
+      DB_SCHEMA: postgres
+      DB_HOST: postgres
+      DB_NAME: CI
+      DB_USER: CI
+      DB_PASSWORD: CI
+      DB_PORT: 5432
+      REDIS_PORT: 6379
+      REDIS_HOST: redis
+      REDIS_USER: redis
+      DATABASE_URL: ${DB_SCHEMA}://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
     steps:
       - uses: actions/checkout@v2
       - name: Build the stack
