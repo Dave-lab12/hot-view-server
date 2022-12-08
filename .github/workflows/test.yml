@@ -13,4 +13,4 @@ jobs:
       - name: docker compose action
         uses: isbang/compose-action@v1.4.1
         with:
-          compose-file: './docker-compose.ci.yml'
+          compose-file: 'docker-compose.ci.yml'
