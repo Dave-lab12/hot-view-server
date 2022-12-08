@@ -16,4 +16,4 @@
 
 # yarn test
 
-exec ./wait-for-it.sh -h "${DB_HOST}" -p "${DB_PORT}" -t 300 -s -- yarn migrateDev && yarn seedCI & yarn test
+exec ./wait-for db:${DB_PORT} && yarn migrateDev && yarn seedCI & yarn test
