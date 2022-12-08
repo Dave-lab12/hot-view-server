@@ -23,7 +23,7 @@ services:
       - db
       - cache
     environment:
-      - DATABASE_URL =${DB_SCHEMA}://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+      - DATABASE_URL=${DB_SCHEMA}://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
 
     volumes:
       - .:/usr/src/app
