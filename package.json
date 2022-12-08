@@ -19,7 +19,8 @@
     "seedCI": "ts-node prisma/seed.ts",
     "postinstall": "$(yarn bin)/pm2 install typescript",
     "prismaGenerate": "prisma generate",
-    "start:migrate:prod": "prisma migrate deploy && npm run start:prod"
+    "start:migrate:prod": "prisma migrate deploy && npm run start:prod",
+    "testCI": "yarn migrateDev && yarn seedCI && yarn test"
   },
   "repository": {
     "type": "git",

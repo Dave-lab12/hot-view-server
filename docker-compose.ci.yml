@@ -27,7 +27,6 @@ services:
     volumes:
       - .:/usr/src/app
       - /app/node_modules
-    command: ./docker-entrypoint-test.sh
 
   cache:
     container_name: redis

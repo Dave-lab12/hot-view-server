@@ -4,13 +4,6 @@ COPY package.json yarn* /usr/src/app/
 
 COPY prisma  ./prisma/
 COPY tsconfig.json ./
-COPY wait-for.sh ./
-COPY docker-entrypoint-test.sh ./
-
-
-RUN chmod +x wait-for.sh \
-    && chmod +x docker-entrypoint-test.sh \
-    && yarn
 
 COPY . .
 
@@ -18,5 +11,4 @@ RUN npx prisma generate
 
 # EXPOSE 8000
 
-# CMD [ "yarn","test" ]
-ENTRYPOINT ["docker-entrypoint-test.sh"]
+CMD [ "yarn","testCI" ]
