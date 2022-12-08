@@ -10,6 +10,7 @@ RUN yarn
 COPY . .
 
 RUN npx prisma generate
+RUN npx prisma
 
 # EXPOSE 8000
 
