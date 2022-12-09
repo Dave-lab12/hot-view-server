@@ -1,7 +1,7 @@
 {
   "name": "hot-view-backend",
   "version": "1.0.0",
-  "packageManager": "yarn@1.22.19",
+  "packageManager": "yarn@1.22.1",
   "author": "Dawit Mekonnen",
   "description": "API for Hov-view",
   "scripts": {
@@ -18,9 +18,7 @@
     "migrateDev": "prisma db push",
     "seedCI": "ts-node prisma/seed.ts",
     "postinstall": "$(yarn bin)/pm2 install typescript",
-    "prismaGenerate": "prisma generate",
-    "start:migrate:prod": "prisma migrate deploy && npm run start:prod",
-    "testCI": "prisma migrate deploy && yarn seedCI && yarn test"
+    "prismaGenerate": "prisma generate"
   },
   "repository": {
     "type": "git",

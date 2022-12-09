@@ -4,24 +4,55 @@ on:
   pull_request:
   push:
     branches: ['main']
+  # The "workflow_dispatch" event gives us a button in GitHub's "Action" UI
   workflow_dispatch:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: ['ubuntu-latest']
+        node-version: ['16.x']
+    services:
+      postgres:
+        image: postgres
+
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      redis:
+        image: redis
+
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     env:
-      SERVER_PORT: 8001
-      DB_SCHEMA: postgres
-      DB_HOST: postgres
-      DB_NAME: CI
-      DB_USER: CI
-      DB_PASSWORD: CI
-      DB_PORT: 5432
-      REDIS_PORT: 6379
-      REDIS_HOST: redis
-      REDIS_USER: redis
-      DATABASE_URL: ${DB_SCHEMA}://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/hot-view
+      REDIS_URL: redis://localhost:6379
     steps:
-      - uses: actions/checkout@v2
-      - name: Build the stack
-        run: docker-compose -f docker-compose.ci.yml up --build
+      - name: 'Checkout repository'
+        uses: actions/checkout@v3
+
+      - name: 'Use Node.js v${{ matrix.node-version }}'
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: 'install dependency'
+        run: yarn install --frozen-lockfile
+      - name: 'migrate database'
+        run: yarn migrateDev
+      - name: 'seed database'
+        run: yarn seedCI
+      - name: 'Run Tests'
+        run: yarn test
