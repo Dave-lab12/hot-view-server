@@ -11,20 +11,26 @@ import cors from 'cors';
 import helmet from 'helmet';
 import { createClient } from 'redis';
 import connectRedis from 'connect-redis';
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
 
 import config from '../config/default';
 
 import './strategies/local';
 import logger from './utils/logger';
 import authRouter from './routes/auth/auth.router';
-import adminRouter from './routes/admin/dashboard.route';
+import adminRouter from './routes/admin/dashboard.router';
 import { hasRole } from './middleware/hasRole';
 import { articleRouter } from './routes/article/article.router';
 
-const app: Express = express();
+// --------------------------initialization-------------------------------
 
+const app: Express = express();
 const THREE_SECOND = 100000;
 const RedisStore = connectRedis(session);
+const apiDocs = path.join(__dirname, '..', 'docs', 'api-docs.yml');
+const swaggerDocument = YAML.load(apiDocs);
+// console.log(YAML.load(apiDocs));
 
 const redisClient = createClient({
   url: config.app.REDIS_URL,
@@ -36,6 +42,8 @@ const accessLogStream = fs.createWriteStream(
   { flags: 'a' }
 );
 dotenv.config();
+
+// ---------------------------------middleware ---------------------------------
 app.use(cors());
 app.use(helmet());
 app.use(
@@ -44,16 +52,8 @@ app.use(
     skip: (req, res) => res.statusCode < 400,
   })
 );
-app.use(bodyParser.json());
 
-redisClient.on('error', function (err) {
-  logger.error(`Could not establish a connection with redis ⚠️. ${err}`);
-  redisClient.disconnect();
-});
-redisClient.on('connect', function () {
-  logger.info('Connected to redis successfully 🚀');
-});
-redisClient.connect();
+app.use(bodyParser.json());
 
 app.use(
   session({
@@ -74,8 +74,20 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/api/v1/auth', authRouter);
-app.use('/api/v1/admin', hasRole(['ADMIN']), adminRouter);
-app.use('/api/v1/articles', articleRouter);
+redisClient.on('error', function (err) {
+  logger.error(`Could not establish a connection with redis ⚠️. ${err}`);
+  redisClient.disconnect();
+});
+redisClient.on('connect', function () {
+  logger.info('Connected to redis successfully 🚀');
+});
+redisClient.connect();
+app.get('/v1', (_req, res) => {
+  res.send('Welcome');
+});
+app.use('/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/v1/auth', authRouter);
+app.use('/v1/admin', hasRole(['ADMIN']), adminRouter);
+app.use('/v1/articles', articleRouter);
 
 export default app;

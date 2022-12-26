@@ -5,6 +5,7 @@
 !.yarn/sdks*
 !.yarn/versions
 logs
+dist
 .vscode
 node_modules
 coverage

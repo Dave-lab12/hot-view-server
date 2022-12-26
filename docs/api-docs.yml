@@ -1,0 +1,110 @@
+openapi: 3.0.0
+info:
+  title: Sample API
+  description: Optional multiline or single-line description in HTML.
+  version: 0.0.1
+servers:
+  - url: http://localhost:8001/v1
+    description: local server
+
+paths:
+  /auth/login:
+    post:
+      tags:
+        - Authorization
+      summary: Login
+      description: send post request to login a user
+      parameters:
+        - in: path
+          name: email
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: password
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Authorization was a success
+  /articles:
+    get:
+      tags:
+        - Articles
+      summary: Returns a list of articles.
+      description: Get Json response with success and data
+      responses:
+        '200': # status code
+          description: A JSON with success and data an array of articles
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+    post:
+      tags:
+        - Articles
+      summary: Create new article.
+      description: Get Json response with success and data
+      responses:
+        '200': # status code
+          description: A JSON with success and data an array of articles
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+
+  /articles/{articleId}:
+    get:
+      summary: Return a single object of an articleId
+      description: Get Json response with success and data
+      tags:
+        - Articles
+      responses:
+        '200':
+          description: An object with status and a single article
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+
+    delete:
+      summary: Return a single object of an articleId
+      description: Get Json response with success and data
+      tags:
+        - Articles
+      responses:
+        '200':
+          description: An object with status and a single article
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
