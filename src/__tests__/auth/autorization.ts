@@ -10,10 +10,10 @@ describe('Authorization', () => {
       email: 'CI@gmail.com',
       password: 'CI@gmail.com',
     };
-    const logout = await request(app).delete('/api/v1/auth/logout');
+    const logout = await request(app).delete('/v1/auth/logout');
     expect(logout.body.success).toBe(true);
 
-    const res = await request(app).post('/api/v1/auth/login').send(payload);
+    const res = await request(app).post('/v1/auth/login').send(payload);
     expect(res.body.success).toBe(true);
     const { header } = res;
 
@@ -30,9 +30,9 @@ describe('Authorization', () => {
       email: 'CI1@gmail.com',
       password: 'CI@gmail.com',
     };
-    const res = await request(app).post('/api/v1/auth/login').send(payload);
+    const res = await request(app).post('/v1/auth/login').send(payload);
     expect(res.body.success).toBe(true);
-    const adminRoute = await request(app).get('/api/v1/admin/dashboard');
+    const adminRoute = await request(app).get('/v1/admin/dashboard');
     expect(adminRoute.body.success).toBe(false);
   });
 });

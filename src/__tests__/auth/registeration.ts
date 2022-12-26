@@ -11,7 +11,7 @@ describe('Registration', () => {
       password: '22222222',
       passwordConfirm: '22222222',
     };
-    const res = await request(app).post('/api/v1/auth/register').send(payload);
+    const res = await request(app).post('/v1/auth/register').send(payload);
     expect(res.body.success).toBe(true);
   });
   it('displays error when incomplete data is submitted', async () => {
@@ -22,7 +22,7 @@ describe('Registration', () => {
       password: '2222',
       passwordConfirm: '222',
     };
-    const res = await request(app).post('/api/v1/auth/register').send(payload);
+    const res = await request(app).post('/v1/auth/register').send(payload);
     expect(res.body.status).toBe('fail');
     expect(res.statusCode).toBe(400);
   });
