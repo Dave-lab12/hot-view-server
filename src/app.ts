@@ -30,7 +30,6 @@ const THREE_SECOND = 100000;
 const RedisStore = connectRedis(session);
 const apiDocs = path.join(__dirname, '..', 'docs', 'api-docs.yml');
 const swaggerDocument = YAML.load(apiDocs);
-// console.log(YAML.load(apiDocs));
 
 const redisClient = createClient({
   url: config.app.REDIS_URL,

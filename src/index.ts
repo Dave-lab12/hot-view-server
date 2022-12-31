@@ -11,4 +11,5 @@ const PORT = config.app.port;
 
 server.listen(PORT, () => {
   logger.info(`Server started 🚀 on port ${PORT}`);
+  logger.info(`Docs 📘 running on localhost:${PORT}/v1/api-docs`);
 });
