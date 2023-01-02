@@ -23,7 +23,7 @@ import adminRouter from './routes/admin/dashboard.router';
 import { hasRole } from './middleware/hasRole';
 import { articleRouter } from './routes/article/article.router';
 
-// --------------------------initialization-------------------------------
+/* --------------------------initialization------------------------------- */
 
 const app: Express = express();
 const THREE_SECOND = 100000;
@@ -42,7 +42,7 @@ const accessLogStream = fs.createWriteStream(
 );
 dotenv.config();
 
-// ---------------------------------middleware ---------------------------------
+/* ---------------------------------middleware --------------------------------- */
 app.use(cors());
 app.use(helmet());
 app.use(
@@ -74,11 +74,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 redisClient.on('error', function (err) {
-  logger.error(`Could not establish a connection with redis ⚠️. ${err}`);
+  logger.error(`⚠️ Could not establish a connection with redis. ${err}`);
   redisClient.disconnect();
 });
 redisClient.on('connect', function () {
-  logger.info('Connected to redis successfully 🚀');
+  logger.info('🚀 Connected to redis successfully');
 });
 redisClient.connect();
 app.get('/v1', (_req, res) => {
