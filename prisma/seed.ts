@@ -27,8 +27,22 @@ async function main() {
       phoneNumber: 0,
     },
   });
-}
 
+  await prisma.article.upsert({
+    where: { id: '1' },
+    update: {},
+    create: {
+      categoryId: '123',
+      title: 'Article 2',
+      content: 'testContent',
+      id: '1',
+      image_id: '123',
+      createdAt: '213',
+      updatedAt: '123',
+      view: 123,
+    },
+  });
+}
 main()
   .then(async () => {
     await prisma.$disconnect();
